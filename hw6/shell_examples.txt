@@ -1,0 +1,288 @@
+In: from pathlib import Path
+
+In: Path('spam', 'bacon', 'eggs')
+Out: WindowsPath('spam/bacon/eggs')
+
+In: str(Path('spam', 'bacon', 'eggs'))
+Out: 'spam\\bacon\\eggs'
+
+In: myFiles = ['accounts.txt', 'details.csv', 'invite.docx']
+
+In: for filename in myFiles:
+   ...:     print(Path(r'C:\Users\Al', filename))
+   ...:
+C:\Users\Al\accounts.txt
+C:\Users\Al\details.csv
+C:\Users\Al\invite.docx
+
+IN: Path('spam') / 'bacon' / 'eggs'
+OUT: WindowsPath('spam/bacon/eggs')
+
+IN: Path('spam') / Path('bacon/eggs')
+OUT: WindowsPath('spam/bacon/eggs')
+
+IN: Path('spam') / Path('bacon', 'eggs')
+Out: WindowsPath('spam/bacon/eggs')
+
+In: homeFolder = r'C:\Users\Al'
+In: subFolder = 'spam'
+In: homeFolder + '\\' + subFolder
+Out:'C:\\Users\\Al\\spam'
+In: '\\'.join([homeFolder, subFolder])
+Out: 'C:\\Users\\Al\\spam'
+
+In: homeFolder = Path('C:/Users/Al')
+In: subFolder = Path('spam')
+In: homeFolder / subFolder
+Out: homeFolder / subFolder
+In: str(homeFolder / subFolder)
+Out: 'C:\\Users\\Al\\spam'
+
+In: import os
+In: Path.cwd()
+Out: WindowsPath('C:/Users/Al/AppData/Local/Programs/Python/Python37')'
+
+In: os.chdir('C:\\Windows\\System32')
+In: Path.cwd()
+Out: WindowsPath('C:/Windows/System32')
+
+In: os.chdir('C:/ThisFolderDoesNotExist')
+Out: Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+FileNotFoundError: [WinError 2] The system cannot find the file specified:
+'C:/ThisFolderDoesNotExist'
+
+In: Path.home()
+Out: WindowsPath('C:/Users/Al')
+
+In: import os
+In: os.makedirs('C:\\delicious\\walnut\\waffles')
+
+In: from pathlib import Path
+In: Path(r'C:\Users\Al\spam').mkdir()
+
+In:  Path.cwd()
+Out: WindowsPath('C:/Users/Al/AppData/Local/Programs/Python/Python37')
+In: Path.cwd().is_absolute()
+Out: True
+In: Path('spam/bacon/eggs').is_absolute()
+Out: False
+
+In: Path('my/relative/path')
+Out: WindowsPath('my/relative/path')
+In: Path.cwd() / Path('my/relative/path')
+Out: WindowsPath('C:/Users/Al/AppData/Local/Programs/Python/Python37/my/relative/
+path')
+
+In: Path('my/relative/path')
+Out: WindowsPath('my/relative/path')
+In: Path.home() / Path('my/relative/path')
+Out: WindowsPath('C:/Users/Al/my/relative/path')
+
+In: os.path.abspath('.')
+Out: 'C:\\Users\\Al\\AppData\\Local\\Programs\\Python\\Python37' 
+In: os.path.abspath('.\\Scripts')
+Out: 'C:\\Users\\Al\\AppData\\Local\\Programs\\Python\\Python37\\Scripts'
+In: os.path.isabs('.')
+Out: False
+In: os.path.isabs(os.path.abspath('.'))
+Out: True
+
+In: os.path.relpath('C:\\Windows', 'C:\\')
+Out: 'Windows'
+In: os.path.relpath('C:\\Windows', 'C:\\spam\\eggs')
+Out: '..\\..\\Windows'
+
+In: p = Path('C:/Users/Al/spam.txt')
+In: p.anchor
+Out: 'C:\\'
+In: p.parent # This is a Path object, not a string.
+Out: WindowsPath('C:/Users/Al')
+In: p.name
+Out: 'spam.txt'
+In: p.stem
+Out: 'spam'
+In: p.suffix
+Out: '.txt'
+In: p.drive
+Out: 'C:'
+
+In: Path.cwd()
+Out: WindowsPath('C:/Users/Al/AppData/Local/Programs/Python/Python37')
+In: Path.cwd().parents[0]
+Out: WindowsPath('C:/Users/Al/AppData/Local/Programs/Python')
+In: Path.cwd().parents[1]
+Out: WindowsPath('C:/Users/Al/AppData/Local/Programs')
+In: Path.cwd().parents[2]
+Out: WindowsPath('C:/Users/Al/AppData/Local')
+In: Path.cwd().parents[3]
+Out: WindowsPath('C:/Users/Al/AppData')
+In: Path.cwd().parents[4]
+Out: WindowsPath('C:/Users/Al') 
+In: Path.cwd().parents[5]
+Out: WindowsPath('C:/Users')
+In: Path.cwd().parents[6]
+Out: WindowsPath('C:/')
+
+In: calcFilePath = 'C:\\Windows\\System32\\calc.exe'
+In: os.path.basename(calcFilePath)
+Out: 'calc.exe'
+In: os.path.dirname(calcFilePath)
+Out: 'C:\\Windows\\System32'
+
+In: calcFilePath = 'C:\\Windows\\System32\\calc.exe'
+In: os.path.split(calcFilePath)
+Out: ('C:\\Windows\\System32', 'calc.exe')
+
+In: (os.path.dirname(calcFilePath), os.path.basename(calcFilePath))
+Out: ('C:\\Windows\\System32', 'calc.exe')
+
+In: calcFilePath.split(os.sep)
+Out: ['C:', 'Windows', 'System32', 'calc.exe']
+
+In: '/usr/bin'.split(os. sep)
+Out: ['', 'usr', 'bin']
+
+In: os.path.getsize('C:\\Windows\\System32\\calc.exe')
+Out: 27648
+
+In: os.listdir('C:\\Windows\\System32')
+Out: ['0409', '12520437.cpx', '12520850.cpx', '5U877.ax', 'aaclient.dll',
+--snip--
+'xwtpdui.dll', 'xwtpw32.dll', 'zh-CN', 'zh-HK', 'zh-TW', 'zipfldr.dll']
+
+In: totalSize = 0
+In: for filename in os.listdir('C:\\Windows\\System32'):
+      totalSize = totalSize + os.path.getsize(os.path.join('C:\\Windows\\System32', filename))
+In:  print(totalSize)
+Out: 2559970473
+
+In: p = Path('C:/Users/Al/Desktop')
+In: p.glob('*')
+Out: <generator object Path.glob at 0x000002A6E389DED0>
+In: list(p.glob('*')) # Make a list from the generator.
+Out: [WindowsPath('C:/Users/Al/Desktop/1.png'), WindowsPath('C:/Users/Al/
+Desktop/22-ap.pdf'), WindowsPath('C:/Users/Al/Desktop/cat.jpg'),
+  --snip--
+WindowsPath('C:/Users/Al/Desktop/zzz.txt')]
+
+In: list(p.glob('*.txt') # Lists all text files.
+Out: [WindowsPath('C:/Users/Al/Desktop/foo.txt'),
+  --snip--
+WindowsPath('C:/Users/Al/Desktop/zzz.txt')]
+
+In: list(p.glob('project?.docx')
+Out: [WindowsPath('C:/Users/Al/Desktop/project1.docx'), WindowsPath('C:/Users/Al/
+Desktop/project2.docx'),
+  --snip--
+WindowsPath('C:/Users/Al/Desktop/project9.docx')]
+
+In: list(p.glob('*.?x?')
+Out:[WindowsPath('C:/Users/Al/Desktop/calc.exe'), WindowsPath('C:/Users/Al/
+Desktop/foo.txt'),
+  --snip--
+WindowsPath('C:/Users/Al/Desktop/zzz.txt')]
+
+In: p = Path('C:/Users/Al/Desktop')
+In: for textFilePathObj in p.glob('*.txt'):
+...     print(textFilePathObj) # Prints the Path object as a string.
+...     # Do something with the text file.
+...
+C:\Users\Al\Desktop\foo.txt
+C:\Users\Al\Desktop\spam.txt
+C:\Users\Al\Desktop\zzz.txt
+
+In: winDir = Path('C:/Windows')
+In: notExistsDir = Path('C:/This/Folder/Does/Not/Exist')
+In: calcFile = Path('C:/Windows/System32/calc.exe')
+In: winDir.exists()
+Out: True
+In:  winDir.is_dir()
+Out: True
+In: notExistsDir.exists()
+Out: False
+In:  calcFile.is_file()
+Out: True
+In: calcFile.is_dir()
+Out: False
+
+In: dDrive = Path('D:/')
+In: dDrive.exists()
+Out: False
+
+In: from pathlib import Path
+In: p = Path('spam.txt')
+In: p.write_text('Hello, world!')
+Out: 13
+In: p.read_text()
+Out: 'Hello, world!'
+
+In: helloFile = open(Path.home() / 'hello.txt')
+
+In: helloFile = open('C:\\Users\\your_home_folder\\hello.txt')
+
+In: helloFile = open('/Users/your_home_folder/hello.txt')
+
+In: helloContent = helloFile.read()
+In: helloContent
+Out: 'Hello, world!'
+
+In: sonnetFile = open(Path.home() / 'sonnet29.txt')
+In: sonnetFile.readlines()
+Out: [When, in disgrace with fortune and men's eyes,\n', ' I all alone beweep my
+outcast state,\n', And trouble deaf heaven with my bootless cries,\n', And
+look upon myself and curse my fate,']  
+
+In: baconFile = open('bacon.txt', 'w')
+In: baconFile.write('Hello, world!\n')
+Out: 13
+In: baconFile.close()
+In: baconFile = open('bacon.txt', 'a')
+In: baconFile.write('Bacon is not a vegetable.')
+Out: 25
+In: baconFile.close()
+In: baconFile = open('bacon.txt')
+In: content = baconFile.read()
+In: baconFile.close()
+In: print(content)
+Out:
+Hello, world!
+Bacon is not a vegetable.
+
+In: import shelve
+In: shelFile = shelve.open('mydata')
+In: cats = ['Zophie', 'Pooka', 'Simon']
+In: shelFile['cats'] = cats
+In: shelFile.close()
+
+In: shelfFile = shelve.open('mydata')
+In: type(shelfFile)
+Out: <class 'shelve.DbfilenameShelf'>
+In:  shelfFile['cats']
+Out: ['Zophie', 'Pooka', 'Simon']
+In: shelFile.close()
+
+In: shelfFile = shelve.open('mydata')
+In: list(shelfFile.keys())
+Out: ['cats']
+In: list(shelfFile.values())
+Out: [['Zophie', 'Pooka', 'Simon']]
+In: shelfFile.close()
+
+In: import pprint
+In: cats = [{'name': 'Zophie', 'desc': 'chubby'}, {'name': 'Pooka', 'desc': 'fluffy'}]
+IN: pprint.pformat(cats)
+Out: "[{'desc': 'chubby', 'name': 'Zophie'}, {'desc': 'fluffy', 'name': 'Pooka'}]"
+In: fileObj = open('myCats.py', 'w')
+In: fileObj.write('cats = ' + pprint.pformat(cats) + '\n')
+Out: 83
+In: fileObj.close()
+
+In: import myCats
+In: myCats.cats
+Out: [{'name': 'Zophie', 'desc': 'chubby'}, {'name': 'Pooka', 'desc': 'fluffy'}]
+In: myCats.cats[0]
+Out: {'name': 'Zophie', 'desc': 'chubby'}
+In: myCats.cats[0]['name']
+Out: 'Zophie'
+
