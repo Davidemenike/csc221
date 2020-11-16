@@ -1,0 +1,113 @@
+In [1]: import csv
+
+In [3]: exampleFile = open('example.csv')
+
+In [4]: exampleReader = csv.reader(exampleFile)
+
+In [5]: exampleData = list(exampleReader)
+
+In [6]: exampleData
+Out[6]:
+[['4/5/2014 13:34', 'Apples', '73'],
+ ['4/5/2014 3:41', 'Cherries', '85'],
+ ['4/6/2014 12:46', 'Pears', '14'],
+ ['4/8/2014 8:59', 'Oranges', '52'],
+ ['4/10/2014 2:07', 'Apples', '152'],
+ ['4/10/2014 18:10', 'Bananas', '23'],
+ ['4/10/2014 2:40', 'Strawberries', '98']]
+
+
+
+
+In [7]: exampleData[0][0]
+Out[7]: '4/5/2014 13:34'
+
+In [8]: exampleData[0][1]
+Out[8]: 'Apples'
+
+In [9]: exampleData[0][2]
+Out[9]: '73'
+
+In [11]: exampleData[1][1]
+Out[11]: 'Cherries'
+
+
+In [14]: exampleData[6][1]
+Out[14]: 'Strawberries'
+
+In [15]: for row in exampleReader:
+    ...:     print('Row #' + str(exampleReader.line_num) + '' + str(row))
+    ...:
+
+In [16]:
+
+In [16]: exampleReader
+Out[16]: <_csv.reader at 0x461a450>
+
+In [17]: exampleReader = csv.reader(exampleFile)
+
+In [21]: outputFile = open('output.csv', 'w', newline='')
+
+In [22]: outputWriter = csv.writer(outputFile)
+
+In [23]: outputWriter.writerow(['spam', 'eggs', 'bacon', 'ham'])
+Out[23]: 21
+
+In [24]: outputWriter.writerow(['Hello, world!', 'eggs', 'bacon', 'ham'])
+Out[24]: 32
+
+In [25]: outputWriter.writerow([1,2,3.141592, 4])
+Out[25]: 16
+
+In [27]: outputFile.close()
+
+
+
+
+In [28]: csvFile = open('example.tsv', 'w', newline='')
+
+In [29]: csvWriter = csv.writer(csvFile, delimiter='\t', lineterminator='\n\n')
+
+In [30]: csvWriter.writerow(['apples', 'oranges', 'grapes'])
+Out[30]: 23
+
+In [31]: csvWriter.writerow(['eggs', 'bacon', 'ham'])
+Out[31]: 16
+
+In [32]: csvWriter.writerow(['spam','spam','spam','spam','spam','spam'])
+Out[32]: 31
+
+In [33]: csvFile.close()
+
+In [35]: exampleFile = open('example.csv')
+
+In [36]: exampleDictReader = csv.DictReader(exampleFile, ['time', 'name', 'amount'])
+
+In [37]: for row in exampleDictReader:
+    ...:     print(row['time'], row['name'], row['amount'])
+    ...:
+4/5/2014 13:34 Apples 73
+4/5/2014 3:41 Cherries 85
+4/6/2014 12:46 Pears 14
+4/8/2014 8:59 Oranges 52
+4/10/2014 2:07 Apples 152
+4/10/2014 18:10 Bananas 23
+4/10/2014 2:40 Strawberries 98
+
+In [38]: outputFile = open('output.csv', 'w', newline='')
+
+In [39]: outputDictWriter = csv.DictWriter(outputFile, ['Name', 'Pet', 'Phone'])
+
+In [41]: outputDictWriter.writeheader()
+Out[41]: 16
+
+In [42]: outputDictWriter.writerow({'Name': 'Alice', 'Pet': 'cat', 'Phone': '555-1234'})
+Out[42]: 20
+
+In [43]: outputDictWriter.writerow({'Name': 'Bob', 'Phone': '555-999'})
+Out[43]: 14
+
+In [44]: outputDictWriter.writerow({'Phone': '555-5555', 'Name': 'Carol', 'Pet': 'dog'})
+Out[44]: 20
+
+In [45]: outputFile.close()       

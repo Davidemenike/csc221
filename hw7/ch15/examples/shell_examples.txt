@@ -1,0 +1,177 @@
+In [1]: import PyPDF2
+
+In [3]: minutesFile = open('meetingminutes.pdf', 'rb',)
+
+In [4]: pdfReader = PyPDF2.PdfFileReader(minutesFile)
+
+In [5]: page = pdfReader.getPage(0)
+
+In [6]: page.rotateClockwise(90)
+Out[6]:
+{'/Contents': [IndirectObject(961, 0),
+  IndirectObject(962, 0),
+  IndirectObject(963, 0),
+  IndirectObject(964, 0),
+  IndirectObject(965, 0),
+  IndirectObject(966, 0),
+  IndirectObject(967, 0),
+  IndirectObject(968, 0)],
+ '/CropBox': [0, 0, 612, 792],
+ '/MediaBox': [0, 0, 612, 792],
+ '/Parent': {'/Count': 9,
+  '/Kids': [IndirectObject(959, 0),
+   IndirectObject(1, 0),
+   IndirectObject(11, 0),
+   IndirectObject(13, 0),
+  -Snip
+
+In [7]: pdfWriter = PyPDF2.PdfFileWriter()
+
+In [8]: pdfWriter.addPage(page)
+
+In [9]: resultPdfFile = open('rotatedPage.pdf', 'wb')
+
+
+
+In [3]: doc = docx.Document('demo.docx')
+
+In [4]: len(doc.paragraphs)
+Out[4]: 7
+
+In [5]: doc.paragraphs[0].text
+Out[5]: 'Document Title'
+
+In [6]: doc.paragraphs[1].text
+Out[6]: 'A plain paragraph with some bold and some italic'
+
+In [7]: len(doc.paragraphs[1].runs)
+Out[7]: 5
+
+
+In [9]: doc.paragraphs[1].runs[0].text
+Out[9]: 'A plain paragraph with'
+
+
+In [11]: doc.paragraphs[1].runs[1].text
+Out[11]: ' some '
+
+In [12]: doc.paragraphs[1].runs[2].text
+Out[12]: 'bold'
+
+In [13]: doc.paragraphs[1].runs[2].text
+Out[13]: 'bold'
+
+In [14]: doc.paragraphs[1].runs[3].text
+Out[14]: ' and some '
+
+In [15]: doc = docx.Document('demo.docx')
+
+In [16]: doc.paragraphs[0].text
+Out[16]: 'Document Title'
+
+In [17]: doc.paragraphs[0].style # The exact id may be different:
+Out[17]: _ParagraphStyle('Title') id: 67715448
+
+In [18]: doc.paragraphs[0].style = 'Normal'
+
+In [19]: doc.paragraphs[1].text
+Out[19]: 'A plain paragraph with some bold and some italic'
+
+In [20]: (doc.paragraphs[1].runs[0].text, doc.paragraphs[1].runs[1].text, doc.paragraphs[1].runs[2].text, doc.paragr
+    ...: aphs[1].runs[3].text)
+Out[20]: ('A plain paragraph with', ' some ', 'bold', ' and some ')
+
+
+In [24]: doc.paragraphs[1].text
+Out[24]: 'A plain paragraph with some bold and some italic'
+
+In [25]: doc.paragraphs[1]
+Out[25]: <docx.text.paragraph.Paragraph at 0x4f76c58>
+
+In [26]: doc.paragraphs[1].runs[1].underline = True
+
+In [27]: doc.paragraphs[1].runs[3].underline = True
+
+In [28]: doc.save('restyled.docx')
+
+In [29]: doc = docx.Document()
+
+In [30]: doc.add_paragraph('Hello, world!')
+Out[30]: <docx.text.paragraph.Paragraph at 0x409b388>
+
+In [31]: doc.save('helloword.docx')
+
+In [32]: doc = docx.Document()
+
+In [33]: doc.add_paragraph('Hello world!')
+Out[33]: <docx.text.paragraph.Paragraph at 0x66dfdd8>
+
+In [34]: paraObj1 = doc.add_paragraph('This is a second paragraph.')
+
+In [35]: paraObj2 = doc.add_paragraph('This is a yet another paragraph.')
+
+
+In [37]: paraObj1.add_run(' This text is being added to the second paragraph.')
+Out[37]: <docx.text.run.Run at 0x4fc1058>
+
+In [38]: doc.save('multipleParagraphs.docx')
+
+
+In [10]: pdfWriter.write(resultPdfFile)
+
+In [11]: resultPdfFile.close()
+
+In [12]: minutesFile.close()
+
+
+
+
+
+In [15]: minutesFile = open('meetingminutes.pdf','rb')
+
+In [16]: pdfReader = PyPDF2.PdfFileReader(minutesFile)
+
+In [17]: minutesFirstPage = pdfReader.getPage(0)
+
+In [21]: pdfWatermarkReader = PyPDF2.PdfFileReader(open('watermark.pdf', 'rb'))
+
+In [22]: minutesFirstPage.mergePage(pdfWatermarkReader.getPage(0))
+
+In [23]: pdfWriter = PyPDF2.PdfFileWriter()
+
+In [24]: pdfWriter.addPage(minutesFirstPage)
+
+In [25]: for pageNum in range(1, pdfReader.numPages):
+    ...:     pageObj = pdfReader.getPage(pageNum)
+    ...:     pdfWriter.addPage(pageObj)
+    ...:
+
+In [26]: resultPdfFile = open('watermarkedCover.pdf','wb')
+
+In [28]: pdfWriter.write(resultPdfFile)
+
+In [29]: minutesFile.close()
+
+In [30]: resultPdfFile.close()
+
+In [31]: pdfFile = open('meetingminutes.pdf','rb')
+
+In [32]: pdfReader = PyPDF2.PdfFileReader(pdfFile)
+
+In [33]: pdfWriter = PyPDF2.PdfFileWriter()
+
+In [34]: for pageNum in range(pdfReader.numPages):
+    ...:     pdfWriter.addPage(pdfReader.getPage(pageNum))
+    ...:
+
+In [35]: pdfWriter.encrypt('swordfish')
+
+In [36]: resultPdf = open('encryptedminutes.pdf', 'wb')
+
+In [37]: pdfWriter.write(resultPdf)
+
+In [38]: resultPdf.close()
+
+In [39]: import docx
+
+

@@ -1,0 +1,116 @@
+>>> import webbrowser
+>>> webbrowser.open('https://inventwithpython.com/')
+True
+>>> webbrowser.open('https://google.com/')
+True
+
+>>> import webbrowser, sys, pyperclip
+>>> if len(sys.argv) > 1:
+...     address = ''.join(sys.argv[1:])
+... else:
+...     address = pyperclip.paste()
+...
+>>> webbrowser.open('https://www.google.com/maps/place/' + address)
+True
+
+
+>>> import requests
+>>> res = requests.get('https://automatetheboringstuff.com/files/rj.txt')
+>>> type(res)
+<class 'requests.models.Response'>
+>>> res.status_code== requests.codes.ok
+True
+>>> len(res.text)
+178978
+>>> print(res.text[:250])
+The Project Gutenberg EBook of Romeo and Juliet, by William Shakespeare
+This eBook is for the use of anyone anywhere at no cost and with
+almost no restrictions whatsoever.  You may copy it, give it away or
+re-use it under the terms of the Project
+
+
+>>> res = requests.get('https://inventwithpython.com/page_that_does_not_exist')
+>>> try:
+...     res.raise_for_status()
+... except Exception as exc:
+...     print('There was a problem: %s'%(exc))
+...
+There was a problem: 404 Client Error: Not Found for url: https://inventwithpython.com/page_that_does_not_exist
+>>> res = requests.get('https://automatetheboringstuff.com/files/rj.txt')
+>>> res.raise_for_status()
+>>> playFile = open('RomeoAndJuliet.txt', 'wb')
+>>> for chunk in res.iter_content(10000):
+...     playFile.write(chunk)
+...
+10000
+10000
+10000
+10000
+10000
+10000
+10000
+10000
+10000
+10000
+10000
+10000
+10000
+10000
+10000
+10000
+10000
+8978
+
+>>> for chunk in res.iter_content(100000):
+...     playFile.write(chunk)
+...
+100000
+78978
+
+
+
+>>> res.raise_for_status()
+>>> noStarchSoup = bs4.BeautifulSoup(res.text, 'html.parser')
+>>> type(noStarchSoup)
+<class 'bs4.BeautifulSoup'>
+>>> import bs4
+>>> exampleFile = open('example.html')
+>>> exampleSoup = bs4.BeautifulSoup(exampleFile.read(), 'html.parser')
+>>> elems = exampleSoup.select('#author')
+>>> type(elems)
+<class 'bs4.element.ResultSet'>
+>>> len(elems)
+1
+>>> type(elems[0])
+<class 'bs4.element.Tag'>
+>>> str(elems[0])
+'<span id="author">Al Sweigart</span>'
+>>> elems[0].getText()
+'Al Sweigart'
+>>> elems[0].attrs
+{'id': 'author'}
+
+
+>>> pElems = exampleSoup.select('p')
+>>> str(pElems[0])
+'<p>Download my <strong>Python</strong> book from <a href="h.ttps://inventwithpython.com">my website</a>.</p>'
+>>> pElems[0].getText()
+'Download my Python book from my website.'
+>>> str(pElems[1])
+'<p class="slogan">Learn Python the easy way!</p>'
+>>> pElems[1].getText()
+'Learn Python the easy way!'
+>>> str(pElems[2])
+'<p>By<span id="author">Al Sweigart</span></p>'
+>>> pElems[2].getText()
+'ByAl Sweigart'
+>>> soup = bs4.BeautifulSoup(open('example.html'), 'html.parser')
+>>> spanElem = soup.select('span')[0]
+>>> str(spanElem)
+'<span id="author">Al Sweigart</span>'
+>>> spanElem.get('id')
+'author'
+>>> spanElem.get('some_nonexistent_addr') == None
+True
+>>> spanElem.attrs
+{'id': 'author'}
