@@ -130,5 +130,6 @@ dmypy.json
 
 # Emacs
 *~
+
 #  Virtual environment directories
 *venv
